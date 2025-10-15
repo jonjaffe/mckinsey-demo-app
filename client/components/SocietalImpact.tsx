@@ -38,7 +38,9 @@ export function SocietalImpact({
         const response = await fetch(BUILDER_API);
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch impact articles: ${response.status}`);
+          throw new Error(
+            `Failed to fetch impact articles: ${response.status}`,
+          );
         }
 
         const data = await response.json();
@@ -62,29 +64,32 @@ export function SocietalImpact({
               return field.value;
             }
             if (Array.isArray(field)) {
-              return field.map(item => extractText(item)).join(" ");
+              return field.map((item) => extractText(item)).join(" ");
             }
             return JSON.stringify(field);
           }
           return "";
         };
 
-        const transformed: ImpactCard[] = data.results.map((article: any, index: number) => ({
-          image:
-            extractText(article.data?.image) ||
-            "https://picsum.photos/600/400?random=" + (index + 300),
-          title: extractText(article.data?.title) || article.name || "Untitled",
-          description:
-            extractText(article.data?.excerpt) ||
-            extractText(article.data?.description) ||
-            "Read the full story to learn more about our societal impact initiatives.",
-          link:
-            extractText(article.data?.url) ||
-            article.data?.url ||
-            article.data?.link ||
-            "#",
-          highlighted: index === 1,
-        }));
+        const transformed: ImpactCard[] = data.results.map(
+          (article: any, index: number) => ({
+            image:
+              extractText(article.data?.image) ||
+              "https://picsum.photos/600/400?random=" + (index + 300),
+            title:
+              extractText(article.data?.title) || article.name || "Untitled",
+            description:
+              extractText(article.data?.excerpt) ||
+              extractText(article.data?.description) ||
+              "Read the full story to learn more about our societal impact initiatives.",
+            link:
+              extractText(article.data?.url) ||
+              article.data?.url ||
+              article.data?.link ||
+              "#",
+            highlighted: index === 1,
+          }),
+        );
 
         setCards(transformed);
       } catch (error) {

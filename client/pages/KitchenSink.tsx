@@ -105,9 +105,7 @@ function VariantPreview({
         <h3 className="text-xl font-medium text-slate-900">{title}</h3>
         <p className="text-sm text-slate-600 leading-relaxed">{description}</p>
       </div>
-      <div className="bg-white">
-        {children}
-      </div>
+      <div className="bg-white">{children}</div>
     </div>
   );
 }
@@ -120,11 +118,11 @@ export default function KitchenSink() {
           <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700">
             Builder Component Gallery
           </span>
-          <h1 className="text-4xl font-bold text-slate-900">
-            Kitchen Sink
-          </h1>
+          <h1 className="text-4xl font-bold text-slate-900">Kitchen Sink</h1>
           <p className="max-w-2xl text-lg text-slate-600 leading-relaxed">
-            Explore every Builder-registered component with representative configurations. Use these examples as a reference when composing experiences in Builder or developing new variants.
+            Explore every Builder-registered component with representative
+            configurations. Use these examples as a reference when composing
+            experiences in Builder or developing new variants.
           </p>
         </header>
 
@@ -219,14 +217,22 @@ export default function KitchenSink() {
             title="With section header"
             description="Displays a prominent header along with a curated set of latest insights."
           >
-            <BlogSection title="Latest Insights" showHeader articles={sampleArticles} />
+            <BlogSection
+              title="Latest Insights"
+              showHeader
+              articles={sampleArticles}
+            />
           </VariantPreview>
 
           <VariantPreview
             title="Grid without header"
             description="Highlights articles in a modular grid, ideal for embedding within richer page layouts."
           >
-            <BlogSection title="Executive Briefings" showHeader={false} articles={executiveBriefings} />
+            <BlogSection
+              title="Executive Briefings"
+              showHeader={false}
+              articles={executiveBriefings}
+            />
           </VariantPreview>
         </VariantSection>
 
@@ -255,21 +261,24 @@ export default function KitchenSink() {
                 {
                   image: "https://picsum.photos/800/600?random=401",
                   title: "Digital Accessibility",
-                  description: "Empowering communities through technology education and digital literacy programs.",
+                  description:
+                    "Empowering communities through technology education and digital literacy programs.",
                   link: "#",
                   highlighted: false,
                 },
                 {
                   image: "https://picsum.photos/800/600?random=402",
                   title: "Environmental Sustainability",
-                  description: "Leading the charge in climate action with data-driven strategies and sustainable practices.",
+                  description:
+                    "Leading the charge in climate action with data-driven strategies and sustainable practices.",
                   link: "#",
                   highlighted: false,
                 },
                 {
                   image: "https://picsum.photos/800/600?random=403",
                   title: "Economic Empowerment",
-                  description: "Creating pathways to prosperity through entrepreneurship support and skills development.",
+                  description:
+                    "Creating pathways to prosperity through entrepreneurship support and skills development.",
                   link: "#",
                   highlighted: true,
                 },
