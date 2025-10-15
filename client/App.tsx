@@ -10,6 +10,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import Index from "./pages/Index";
 import Blog from "./pages/Blog";
+import KitchenSink from "./pages/KitchenSink";
 import NotFound from "./pages/NotFound";
 import BuilderPage from "./builder-page";
 
@@ -35,6 +36,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/kitchen-sink" element={<KitchenSink />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<BuilderPage />} />
             <Route path="*" element={<NotFound />} />
