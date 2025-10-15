@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { BlogSection } from "../components/BlogSection";
 import { Hero } from "../components/Hero";
 import { ImageTextCard } from "../components/ImageTextCard";
+import { SocietalImpact } from "../components/SocietalImpact";
 
 const sampleArticles = [
   {
@@ -226,6 +227,77 @@ export default function KitchenSink() {
             description="Highlights articles in a modular grid, ideal for embedding within richer page layouts."
           >
             <BlogSection title="Executive Briefings" showHeader={false} articles={executiveBriefings} />
+          </VariantPreview>
+        </VariantSection>
+
+        <VariantSection
+          title="SocietalImpact"
+          description="High-impact societal mission section with card grid showcasing initiatives, programs, and impact areas."
+        >
+          <VariantPreview
+            title="Default configuration"
+            description="Three-column impact card grid with eyebrow label, prominent heading, and detailed card descriptions."
+          >
+            <SocietalImpact
+              eyebrow="Societal Impact"
+              heading="Sharing our best to help more people succeed"
+              cards={[
+                {
+                  image: "https://api.builder.io/api/v1/image/assets/TEMP/747fe980d743150d6b1a5f61be3eeb7b0c8578ba?width=779",
+                  title: "McKinsey.org",
+                  description: "Skill building programs—at no cost—so nonprofits and individuals can achieve even more.",
+                  link: "#",
+                  highlighted: false,
+                },
+                {
+                  image: "https://api.builder.io/api/v1/image/assets/TEMP/4cb821c9277b4ae695fe6b6aa2cf1db60e840750?width=747",
+                  title: "McKinsey.org Forward",
+                  description: "An online learning journey designed to equip individuals at different stages of their careers—from career starters to job changers—with practical skills to succeed.",
+                  link: "#",
+                  highlighted: true,
+                },
+                {
+                  image: "https://api.builder.io/api/v1/image/assets/TEMP/e83952bbe69a692d5ce4d6b555bd8ef49490fcc3?width=779",
+                  title: "Sustainable inclusive growth",
+                  description: "We support organizations in innovating sustainably, achieving lasting performance gains, and building workforces that will thrive now and in the future.",
+                  link: "#",
+                  highlighted: false,
+                },
+              ]}
+            />
+          </VariantPreview>
+
+          <VariantPreview
+            title="Alternate configuration"
+            description="Flexible card arrangement demonstrating different eyebrow text and custom heading."
+          >
+            <SocietalImpact
+              eyebrow="Global Initiatives"
+              heading="Making a difference through innovation and collaboration"
+              cards={[
+                {
+                  image: "https://picsum.photos/800/600?random=401",
+                  title: "Digital Accessibility",
+                  description: "Empowering communities through technology education and digital literacy programs.",
+                  link: "#",
+                  highlighted: false,
+                },
+                {
+                  image: "https://picsum.photos/800/600?random=402",
+                  title: "Environmental Sustainability",
+                  description: "Leading the charge in climate action with data-driven strategies and sustainable practices.",
+                  link: "#",
+                  highlighted: false,
+                },
+                {
+                  image: "https://picsum.photos/800/600?random=403",
+                  title: "Economic Empowerment",
+                  description: "Creating pathways to prosperity through entrepreneurship support and skills development.",
+                  link: "#",
+                  highlighted: true,
+                },
+              ]}
+            />
           </VariantPreview>
         </VariantSection>
       </div>
