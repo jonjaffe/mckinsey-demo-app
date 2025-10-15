@@ -1,5 +1,4 @@
 import { Calendar } from "lucide-react";
-import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface BlogArticle {
