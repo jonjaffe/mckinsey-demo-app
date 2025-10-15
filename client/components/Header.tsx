@@ -1,6 +1,5 @@
 import { Search, Menu, User } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Menu, Search, User } from "lucide-react";
 import { Button } from "./ui/button";
 
 export function Header() {
