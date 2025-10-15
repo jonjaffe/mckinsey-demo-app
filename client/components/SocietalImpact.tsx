@@ -35,28 +35,30 @@ export function SocietalImpact({
           {cards.map((card, index) => (
             <div
               key={index}
-              className={`bg-transparent flex flex-col ${
-                card.highlighted ? "border-4 border-neutral-400" : ""
-              }`}
+              className={`group flex flex-col rounded-xl overflow-hidden border transition-all duration-300 ease-out ${
+                card.highlighted
+                  ? "border-4 border-neutral-300"
+                  : "border-transparent"
+              } bg-white/10 hover:bg-white hover:shadow-xl hover:border-white`}
             >
               <div className="aspect-[16/9] w-full overflow-hidden">
                 <img
                   src={card.image}
                   alt={card.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                 />
               </div>
 
-              <div className="flex-1 flex flex-col pt-4 pb-6 px-2">
+              <div className="flex-1 flex flex-col pt-5 pb-7 px-6">
                 <a
                   href={card.link}
-                  className="inline-flex items-center gap-3.5 text-white text-lg font-bold mb-4 hover:opacity-80 transition-opacity group"
+                  className="inline-flex items-center gap-3.5 text-white text-lg font-bold mb-4 transition-colors duration-300 group-hover:text-[#1A53FF]"
                 >
                   <span>{card.title}</span>
-                  <ChevronRight className="w-3 h-4.5 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className="w-3 h-4.5 flex-shrink-0 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#1A53FF]" />
                 </a>
 
-                <p className="text-white text-lg font-light leading-7">
+                <p className="text-white text-lg font-light leading-7 transition-colors duration-300 group-hover:text-slate-600">
                   {card.description}
                 </p>
               </div>
