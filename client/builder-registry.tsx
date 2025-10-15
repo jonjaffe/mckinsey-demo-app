@@ -2,6 +2,7 @@ import { Builder } from "@builder.io/react";
 import {Hero} from "./components/Hero";
 import {ImageTextCard} from "./components/ImageTextCard";
 import {BlogSection} from "./components/BlogSection";
+import {SocietalImpact} from "./components/SocietalImpact";
 
 Builder.register("insertMenu", {
   name: "McKinsey Components",
@@ -9,6 +10,7 @@ Builder.register("insertMenu", {
     {name: "Hero"},
     {name: "ImageTextCard"},
     {name: "BlogSection"},
+    {name: "SocietalImpact"},
   ]
 })
 
@@ -117,6 +119,78 @@ Builder.registerComponent(BlogSection, {
       type: "boolean",
       defaultValue: true,
       required: false,
+    },
+  ],
+} as any);
+
+Builder.registerComponent(SocietalImpact, {
+  name: "SocietalImpact",
+  inputs: [
+    {
+      name: "eyebrow",
+      type: "string",
+      defaultValue: "Societal Impact",
+      required: false,
+    },
+    {
+      name: "heading",
+      type: "string",
+      defaultValue: "Sharing our best to help more people succeed",
+      required: true,
+    },
+    {
+      name: "cards",
+      type: "list",
+      defaultValue: [
+        {
+          image: "https://api.builder.io/api/v1/image/assets/TEMP/747fe980d743150d6b1a5f61be3eeb7b0c8578ba?width=779",
+          title: "McKinsey.org",
+          description: "Skill building programs—at no cost—so nonprofits and individuals can achieve even more.",
+          link: "#",
+          highlighted: false,
+        },
+        {
+          image: "https://api.builder.io/api/v1/image/assets/TEMP/4cb821c9277b4ae695fe6b6aa2cf1db60e840750?width=747",
+          title: "McKinsey.org Forward",
+          description: "An online learning journey designed to equip individuals at different stages of their careers—from career starters to job changers—with practical skills to succeed.",
+          link: "#",
+          highlighted: true,
+        },
+        {
+          image: "https://api.builder.io/api/v1/image/assets/TEMP/e83952bbe69a692d5ce4d6b555bd8ef49490fcc3?width=779",
+          title: "Sustainable inclusive growth",
+          description: "We support organizations in innovating sustainably, achieving lasting performance gains, and building workforces that will thrive now and in the future.",
+          link: "#",
+          highlighted: false,
+        },
+      ],
+      subFields: [
+        {
+          name: "image",
+          type: "string",
+          required: true,
+        },
+        {
+          name: "title",
+          type: "string",
+          required: true,
+        },
+        {
+          name: "description",
+          type: "string",
+          required: true,
+        },
+        {
+          name: "link",
+          type: "string",
+          required: true,
+        },
+        {
+          name: "highlighted",
+          type: "boolean",
+          defaultValue: false,
+        },
+      ],
     },
   ],
 } as any);
