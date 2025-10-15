@@ -1,5 +1,6 @@
 import { Search, Menu, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Menu, Search, User } from "lucide-react";
 import { Button } from "./ui/button";
 
 export function Header() {
@@ -46,6 +47,9 @@ export function Header() {
             </button>
             <Link to="/blog" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium flex items-center h-full">
               McKinsey Blog
+            </Link>
+            <Link to="/kitchen-sink" className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium flex items-center h-full">
+              Kitchen Sink
             </Link>
           </nav>
 
