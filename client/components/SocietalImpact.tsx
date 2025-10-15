@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 
 interface ImpactCard {
@@ -11,14 +12,93 @@ interface ImpactCard {
 interface SocietalImpactProps {
   eyebrow?: string;
   heading: string;
-  cards: ImpactCard[];
+  cards?: ImpactCard[];
 }
+
+const BUILDER_API =
+  "https://cdn.builder.io/api/v3/content/article?apiKey=f3c7f0a195ba446c9a2c6d4ece51635a&limit=6";
 
 export function SocietalImpact({
   eyebrow = "Societal Impact",
   heading,
-  cards,
+  cards: providedCards,
 }: SocietalImpactProps) {
+  const [cards, setCards] = useState<ImpactCard[]>(providedCards ?? []);
+
+  useEffect(() => {
+    if (providedCards && providedCards.length > 0) {
+      setCards(providedCards);
+      return;
+    }
+
+    let isSubscribed = true;
+
+    const fetchCards = async () => {
+      try {
+        const response = await fetch(BUILDER_API);
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch impact articles: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!isSubscribed || !Array.isArray(data.results)) {
+          return;
+        }
+
+        const extractText = (field: any): string => {
+          if (typeof field === "string") {
+            return field;
+          }
+          if (field && typeof field === "object") {
+            if (field.Default) {
+              return field.Default;
+            }
+            if (field.text) {
+              return field.text;
+            }
+            if (field.value) {
+              return field.value;
+            }
+            if (Array.isArray(field)) {
+              return field.map(item => extractText(item)).join(" ");
+            }
+            return JSON.stringify(field);
+          }
+          return "";
+        };
+
+        const transformed: ImpactCard[] = data.results.map((article: any, index: number) => ({
+          image:
+            extractText(article.data?.image) ||
+            "https://picsum.photos/600/400?random=" + (index + 300),
+          title: extractText(article.data?.title) || article.name || "Untitled",
+          description:
+            extractText(article.data?.excerpt) ||
+            extractText(article.data?.description) ||
+            "Read the full story to learn more about our societal impact initiatives.",
+          link:
+            extractText(article.data?.url) ||
+            article.data?.url ||
+            article.data?.link ||
+            "#",
+          highlighted: index === 1,
+        }));
+
+        setCards(transformed);
+      } catch (error) {
+        console.error("Error fetching societal impact articles", error);
+      }
+    };
+
+    fetchCards();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [providedCards]);
+
   return (
     <section className="bg-[#1A53FF] py-12 md:py-16 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-20">
@@ -34,7 +114,7 @@ export function SocietalImpact({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {cards.map((card, index) => (
             <div
-              key={index}
+              key={`${card.title}-${index}`}
               className={`group flex flex-col rounded-xl overflow-hidden border transition-all duration-300 ease-out ${
                 card.highlighted
                   ? "border-4 border-neutral-300"
@@ -45,7 +125,8 @@ export function SocietalImpact({
                 <img
                   src={card.image}
                   alt={card.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  className="w-full h-full object-cover overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]"
+                  loading="lazy"
                 />
               </div>
 
