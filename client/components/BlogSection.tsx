@@ -1,5 +1,6 @@
 import { Calendar } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Calendar } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface BlogArticle {
   id: string;
@@ -28,68 +29,78 @@ interface BuilderArticle {
 interface BlogSectionProps {
   title: string;
   showHeader?: boolean;
+  articles?: BlogArticle[];
 }
 
-export function BlogSection({ title, showHeader = true }: BlogSectionProps) {
-  const [articles, setArticles] = useState<BlogArticle[]>([]);
-  const [loading, setLoading] = useState(true);
+export function BlogSection({ title, showHeader = true, articles: providedArticles }: BlogSectionProps) {
+  const [articles, setArticles] = useState<BlogArticle[]>(providedArticles ?? []);
+  const [loading, setLoading] = useState(providedArticles === undefined);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (providedArticles !== undefined) {
+      setArticles(providedArticles);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
+    let isSubscribed = true;
+
     const fetchArticles = async () => {
       try {
         setLoading(true);
+        setError(null);
         const response = await fetch(
           'https://cdn.builder.io/api/v3/content/article?apiKey=f3c7f0a195ba446c9a2c6d4ece51635a&limit=6'
         );
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch articles: ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
-        // Debug: Log the API response structure
+
+        if (!isSubscribed) {
+          return;
+        }
+
         console.log('Builder.io API Response:', data);
         if (data.results && data.results.length > 0) {
           console.log('Sample article data:', data.results[0]);
         }
-        
-        // Helper function to extract text from Builder.io rich text objects
+
         const extractText = (field: any): string => {
           if (typeof field === 'string') {
             return field;
           }
           if (field && typeof field === 'object') {
-            // Handle Builder.io rich text format
             if (field.Default) {
               return field.Default;
             }
-            // Handle other object formats
             if (field.text) {
               return field.text;
             }
             if (field.value) {
               return field.value;
             }
-            // If it's an array, join the text content
             if (Array.isArray(field)) {
               return field.map(item => extractText(item)).join(' ');
             }
-            // Try to stringify as last resort
             return JSON.stringify(field);
           }
           return '';
         };
 
-        // Ensure we have results to process
         if (!data.results || !Array.isArray(data.results)) {
           console.warn('No results found in API response:', data);
+          if (!isSubscribed) {
+            return;
+          }
           setArticles([]);
           return;
         }
 
-        // Transform Builder.io data to match our BlogArticle interface
         const transformedArticles: BlogArticle[] = data.results.map((article: BuilderArticle) => ({
           id: article.id,
           title: extractText(article.data.title) || article.name || 'Untitled Article',
@@ -103,18 +114,31 @@ export function BlogSection({ title, showHeader = true }: BlogSectionProps) {
           category: extractText(article.data.category),
           readTime: extractText(article.data.readTime)
         }));
-        
+
+        if (!isSubscribed) {
+          return;
+        }
+
         setArticles(transformedArticles);
       } catch (err) {
+        if (!isSubscribed) {
+          return;
+        }
         setError(err instanceof Error ? err.message : 'Failed to fetch articles');
         console.error('Error fetching articles:', err);
       } finally {
-        setLoading(false);
+        if (isSubscribed) {
+          setLoading(false);
+        }
       }
     };
 
     fetchArticles();
-  }, []);
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [providedArticles]);
   if (loading) {
     return (
       <section className="py-16 bg-gray-50">
